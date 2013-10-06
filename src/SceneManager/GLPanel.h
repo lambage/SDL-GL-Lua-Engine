@@ -13,8 +13,10 @@
 class GLPanel : GLObject
 {
 public:
-  GLPanel();
+  GLPanel(SceneManager * sceneManager);
   virtual ~GLPanel();
+  
+  virtual void Render(int w, int h);
 private:
 
 };

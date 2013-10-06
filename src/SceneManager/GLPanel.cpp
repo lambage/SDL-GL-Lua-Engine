@@ -7,7 +7,7 @@
 
 #include "GLPanel.h"
 
-GLPanel::GLPanel()
+GLPanel::GLPanel(SceneManager * sceneManager) : GLObject(sceneManager)
 {
 }
 
