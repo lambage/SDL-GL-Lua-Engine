@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   GLPanel.h
  * Author: daddy
  *
@@ -10,14 +10,16 @@
 
 #include "GLObject.h"
 
-class GLPanel : GLObject
+class GLPanel : public GLObject
 {
 public:
-  GLPanel(SceneManager * sceneManager);
+  GLPanel();
   virtual ~GLPanel();
-  
+
   virtual void Render(int w, int h);
 private:
+
+
 
 };
 

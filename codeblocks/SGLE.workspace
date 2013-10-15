@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="Workspace">
+		<Project filename="SDL-GL-Lua-Engine-codeblocks/SDL-GL-Lua-Engine-codeblocks.cbp" />
+		<Project filename="sample2-codeblocks/codeblocks/sample1-codeblocks/sample2-codeblocks.cbp">
+			<Depends filename="SDL-GL-Lua-Engine-codeblocks/SDL-GL-Lua-Engine-codeblocks.cbp" />
+		</Project>
+	</Workspace>
+</CodeBlocks_workspace_file>

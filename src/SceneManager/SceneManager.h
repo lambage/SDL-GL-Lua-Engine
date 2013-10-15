@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   SceneManager.h
  * Author: daddy
  *
@@ -11,20 +11,22 @@
 #include <SDL2/SDL.h>
 #include <GL/glew.h>
 #include <string>
+#include <memory>
 #include "../Util/Event.h"
 #include "GLObject.h"
+#include "ShaderManager.h"
 
 class SceneManager {
 public:
   SceneManager();
   virtual ~SceneManager();
-  
+
   bool InitWindow();
   void CloseWindow();
-  
+
   void MainLoop();
   void Quit();
-  
+
   Event<int, int> Initialize;
   Event<int, int> Render;
   Event<int, int> Resize;
@@ -34,8 +36,9 @@ public:
   Event<int, int> MouseMove;
   Event<int, int, int> MouseButtonDown;
   Event<int, int, int> MouseButtonUp;
-  
-  GLObject *RootObject;
+
+  std::vector<std::unique_ptr<GLObject>> RootObject;
+
 public:
   int RedBits;
   int GreenBits;
@@ -56,25 +59,27 @@ public:
   int VSync;
   bool FullScreen;
   bool MouseVisible;
-  
+
   std::string Title;
-  
+
 private:
   void swapBuffers();
   void render();
-  void walkGLObjects(GLObject *object);
-  
-  SDL_Window *window; 
-  SDL_GLContext glContext; 
-    
+  void walkGLObjects(std::vector<std::unique_ptr<GLObject>> &objects);
+
+  SDL_Window *window;
+  SDL_GLContext glContext;
+
   bool sdlInitialized;
-  
+
   bool running;
-  
+
   int frames;
   int fps;
   unsigned int timer;
-  
+
+  ShaderManager shaderManager;
+
 };
 
 #endif	/* SCENEMANAGER_H */

@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   GLObject.h
  * Author: daddy
  *
@@ -13,6 +13,7 @@
 #include "../Util/Event.h"
 #include <string>
 #include <vector>
+#include <memory>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -25,43 +26,45 @@ enum class GLBorderStyle
   ThickBorder
 };
 
-class SceneManager;
-
 class GLObject {
 public:
-  GLObject(SceneManager * sceneManager);
+  GLObject();
   virtual ~GLObject();
-  
+
   int X;
   int Y;
   int Width;
   int Height;
   std::string Text;
-  
+
   glm::vec4 ForeColor;
   glm::vec4 BackColor;
   SDL_Texture *Image;
-  
+
   GLBorderStyle BorderStyle;
-  
+
   Event<SDL_Keysym> KeyDown;
   Event<SDL_Keysym> KeyUp;
   Event<int> MouseWheel;
   Event<int, int> MouseMove;
   Event<int, int, int> MouseButtonDown;
   Event<int, int, int> MouseButtonUp;
-  
+
   virtual void Render(int w, int h) = 0;
-  
-  
-  std::vector<GLObject *> Children;
-  
+
+
+  std::vector<std::unique_ptr<GLObject>> Children;
+
 private:
 
-  SceneManager * sceneManager;
   GLuint vertexBuffer;
   GLuint uvBuffer;
-  
+  GLuint normalBuffer;
+
+  std::vector<glm::vec3> vertices;
+  std::vector<glm::vec2> texCoords;
+  std::vector<glm::vec3> normals;
+
 };
 
 #endif	/* GLOBJECT_H */

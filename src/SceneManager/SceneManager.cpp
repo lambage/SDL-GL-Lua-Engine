@@ -1,7 +1,7 @@
-/* 
+/*
  * File:   SceneManager.cpp
  * Author: daddy
- * 
+ *
  * Created on September 28, 2013, 12:43 PM
  */
 
@@ -11,10 +11,10 @@
 SceneManager::SceneManager()
 {
   Title = "SDL GL Program";
-  
+
   Width = 1024;
   Height = 600;
-  
+
   RedBits = 8;
   GreenBits = 8;
   BlueBits = 8;
@@ -33,16 +33,14 @@ SceneManager::SceneManager()
   VSync = 0;
   FullScreen = false;
   MouseVisible = true;
-  
+
   sdlInitialized = false;
-  
+
   running = false;
-  
+
   frames = 0;
   fps = 0;
   timer = 0;
-  
-  RootObject = nullptr;
 }
 
 SceneManager::~SceneManager()
@@ -54,13 +52,13 @@ bool SceneManager::InitWindow()
   if (SDL_Init(SDL_INIT_EVERYTHING ) < 0 )
   {
     Log(LogType::Error, "SDL Initialization failed\n");
-    return false;    
+    return false;
   }
   else
   {
     sdlInitialized = true;
   }
-  
+
   SDL_GL_SetAttribute(SDL_GL_RED_SIZE, RedBits);
   SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, GreenBits);
   SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, BlueBits);
@@ -79,54 +77,59 @@ bool SceneManager::InitWindow()
   {
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, MultiSampleBits);
   }
-  
+
   SDL_GL_SetSwapInterval(VSync);
-  
-  
+
+
   window = SDL_CreateWindow(
         Title.c_str(),                  // window title
         SDL_WINDOWPOS_UNDEFINED,           // initial x position
         SDL_WINDOWPOS_UNDEFINED,           // initial y position
         Width,                               // width, in pixels
         Height,                               // height, in pixels
-        SDL_WINDOW_OPENGL     
+        SDL_WINDOW_OPENGL
     );
-  
+
   if (window != nullptr)
   {
     glContext = SDL_GL_CreateContext(window);
   }
-  
+  else
+  {
+    return false;
+  }
+  return true;
+
 }
 
 void SceneManager::CloseWindow()
 {
-  SDL_GL_DeleteContext(glContext);  
+  SDL_GL_DeleteContext(glContext);
 }
-  
+
 void SceneManager::MainLoop()
 {
   SDL_Event event;
   timer = SDL_GetTicks();
   running = true;
-  
+
   Initialize.Invoke(Width, Height);
-  
+
   while( running ) {
     SDL_PollEvent( &event );
-    switch( event.type ) 
+    switch( event.type )
     {
-      case SDL_KEYDOWN: 
+      case SDL_KEYDOWN:
       {
         KeyDown.Invoke( event.key.keysym );
         break;
       }
-      case SDL_KEYUP: 
+      case SDL_KEYUP:
       {
         KeyUp.Invoke( event.key.keysym );
         break;
-      }      
-      case SDL_QUIT: 
+      }
+      case SDL_QUIT:
       {
         running = false;
         break;
@@ -146,7 +149,7 @@ void SceneManager::MainLoop()
       {
         MouseButtonUp.Invoke(event.button.x, event.button.y, event.button.button);
         break;
-      }      
+      }
       case SDL_MOUSEMOTION:
       {
         MouseMove.Invoke(event.motion.x, event.motion.y);
@@ -159,34 +162,32 @@ void SceneManager::MainLoop()
         Resize.Invoke(Width, Height);
         break;
       }
-      default: 
+      default:
       {
         render();
-        break; 
+        break;
       }
-    }
-  }  
-}
-
-void SceneManager::walkGLObjects(GLObject *object)
-{
-  if (object)
-  {
-    for (auto i : object->Children)
-    {
-      i->Render(Width, Height);
-      walkGLObjects(i);
     }
   }
 }
+
+void SceneManager::walkGLObjects(std::vector<std::unique_ptr<GLObject>> &objects)
+{
+  for (auto &i : objects)
+  {
+    i->Render(Width, Height);
+    walkGLObjects(i->Children);
+  }
+}
+
 
 void SceneManager::render()
 {
   Render.Invoke(Width, Height);
   walkGLObjects(RootObject);
-  swapBuffers(); 
+  swapBuffers();
 }
-  
+
 void SceneManager::Quit()
 {
   running = false;

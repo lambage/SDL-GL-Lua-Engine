@@ -1,0 +1,41 @@
+# depslib dependency file v1.0
+1381627479 source:/home/daddy/projects/SDL-GL-Lua-Engine/samples/sample2.cpp
+	"Util/Log.h"
+	"SceneManager/SceneManager.h"
+	<stdio.h>
+	"SceneManager/GLPanel.h"
+
+1380970828 /home/daddy/projects/SDL-GL-Lua-Engine/src/Util/Log.h
+
+1381832869 /home/daddy/projects/SDL-GL-Lua-Engine/src/SceneManager/SceneManager.h
+	<SDL2/SDL.h>
+	<GL/glew.h>
+	<string>
+	<memory>
+	"../Util/Event.h"
+	"GLObject.h"
+	"ShaderManager.h"
+
+1380970828 /home/daddy/projects/SDL-GL-Lua-Engine/src/Util/Event.h
+	<vector>
+	<algorithm>
+
+1381659780 /home/daddy/projects/SDL-GL-Lua-Engine/src/SceneManager/GLObject.h
+	<SDL2/SDL.h>
+	<GL/glew.h>
+	"../Util/Event.h"
+	<string>
+	<vector>
+	<memory>
+	<glm/glm.hpp>
+	<glm/gtc/matrix_transform.hpp>
+
+1381660957 /home/daddy/projects/SDL-GL-Lua-Engine/src/SceneManager/GLPanel.h
+	"GLObject.h"
+
+1381661522 /home/daddy/projects/SDL-GL-Lua-Engine/src/SceneManager/ShaderManager.h
+	<SDL2/SDL.h>
+	<GL/glew.h>
+	<map>
+	<string>
+

@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   ShaderManager.h
  * Author: daddy
  *
@@ -13,21 +13,32 @@
 #include <map>
 #include <string>
 
+struct ShaderInfo
+{
+  GLuint programID;
+  std::string vertexName;
+  std::string fragmentName;
+};
+
 class ShaderManager {
 public:
   ShaderManager();
   ~ShaderManager();
-  
-  void LoadProgramFromFile(std::string name, std::string fragmentShader, std::string vertexShader);
-  void LoadProgram(std::string name, std::string fragmentShader, std::string vertexShader);
-  
+
+  void Initialize();
+
+  GLuint LoadProgramFromFile(std::string name, std::string fragmentShader, std::string vertexShader);
+  GLuint LoadProgram(std::string name, std::string fragmentShader, std::string vertexShader,
+                     std::string vertexShaderName="Vertex shader from string",
+                     std::string fragmentShaderName="Fragment shader from string");
+
   void UseProgram(std::string name)
   {
-    glUseProgram(programs[name]);
+    glUseProgram(programs[name].programID);
   }
-  
+
 private:
-  std::map<std::string, GLuint> programs;
+  std::map<std::string, ShaderInfo> programs;
 };
 
 #endif	/* SHADERMANAGER_H */
